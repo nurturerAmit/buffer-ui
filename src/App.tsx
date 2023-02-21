@@ -4,12 +4,12 @@ import Drawer from '@Views/Common/V2-Drawer';
 import IbfrFaucet from '@Views/Faucet';
 import Background from './AppStyles';
 import { Alert, Snackbar } from '@mui/material';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom, useAtomValue } from 'jotai';
 import { useEffect } from 'react';
 import { useNetwork, useProvider, useSigner } from 'wagmi';
 import { Warning } from '@Views/Common/Notification/warning';
 import TnCModal from '@Views/Common/TnCModal';
-import BinryMarkets from '@Views/BinaryOptions';
+import BinryMarkets, { activeMarketFromStorageAtom, defaultMarket } from '@Views/BinaryOptions';
 import { Incentivised } from '@Views/V2-Leaderboard/Incentivised';
 import { Earn } from '@Views/Earn';
 import { Dashboard } from '@Views/Dashboard';
@@ -47,18 +47,20 @@ function AppComponent() {
 }
 
 const AppRoutes = () => {
+  const activeMarketFromStorage = useAtomValue(activeMarketFromStorageAtom)
+
   return (
     <div className="root w-[100vw]">
       <Routes>
         <Route path="/home" element={<AppComponent />} />
         <Route path="/faucet" element={<IbfrFaucet />} />
         <Route path="/test" element={<Test />} />
-        <Route path="/binary/:market" element={<BinryMarkets />} />
         <Route path="/leaderboard/incentivised" element={<Incentivised />} />
         <Route path="/earn" element={<Earn />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/referral" element={<ReferralPage />} />
-        <Route path="/*" element={<BinryMarkets />} />
+        <Route path="/binary/:market" element={<BinryMarkets />} />
+        <Route path="/*" element={<Navigate to={"/binary/" + activeMarketFromStorage || defaultMarket} />} />
       </Routes>
     </div>
   );
