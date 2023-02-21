@@ -91,7 +91,7 @@ export const getTabs = (marketFromStorage:string) => {
         isExternalLink: false,
       },
       {
-        to: `/leaderboard/incentivised`,
+        to: `/leaderboard/weekly`,
         name: 'Competitions',
         subTabs: [],
         isExternalLink: false,
